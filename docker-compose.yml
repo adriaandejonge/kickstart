@@ -1,0 +1,10 @@
+web:
+  image: nginx
+  ports:
+   - "80:80"
+  volumes:
+   - .:/code
+  links:
+   - redis
+redis:
+  image: redis
