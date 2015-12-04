@@ -1,10 +1,58 @@
-web:
-  image: nginx
+wildfly-qa:
+  image: adejonge/wildfly:latest
+  ports:
+   - "8081:8081"
+wildfly-pr:
+  image: adejonge/wildfly:latest
+  ports:
+   - "8082:8081"
+mocha:
+  image: adejonge/mocha:latest
+  links:
+  - wildfly-qa
+  - wildfly-pr
+  command: "/usr/sbin/sshd -D"
+xld:
+  image: adejonge/xld:latest
+  ports:
+   - "4516:4516"
+  links:
+  - wildfly-qa
+  - wildfly-pr
+xlr:
+  image: adejonge/xlr:latest
+  ports:
+   - "5516:5516"
+  links:
+  - wildfly-qa
+  - wildfly-pr
+  - mocha
+  - xld
+jenkins:
+  image: jenkins:1.609.3
+  ports:
+   - "8080:8080"
+  links:
+  - xld
+  - xlr
+xlr:
+  image: adejonge/xlr:latest
+  ports:
+   - "5516:5516"
+  links:
+  - wildfly-qa
+  - wildfly-pr
+  - mocha
+  - xld
+all:
+  image: adejonge/devops-proxy:latest
   ports:
    - "80:80"
-  volumes:
-   - .:/code
   links:
-   - redis
-redis:
-  image: redis
+  - wildfly-qa
+  - wildfly-pr
+  - mocha
+  - xld
+  - xlr
+  - jenkins
+
