@@ -45,7 +45,7 @@ xlr:
   - mocha
   - xld
 all:
-  image: adejonge/devops-proxy:latest
+  image: adejonge/training-proxy:latest
   ports:
    - "80:80"
   links:
