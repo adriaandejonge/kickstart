@@ -1,9 +1,9 @@
 wildfly-qa:
-  image: adejonge/wildfly:latest
+  image: adejonge/jbossas:latest
   ports:
    - "8081:8081"
 wildfly-pr:
-  image: adejonge/wildfly:latest
+  image: adejonge/jbossas:latest
   ports:
    - "8082:8081"
 mocha:
